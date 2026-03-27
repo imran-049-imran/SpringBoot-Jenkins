@@ -106,22 +106,28 @@ The pipeline is defined as code and versioned alongside the application:
 pipeline {
     agent any
 
+    tools {
+        maven 'Maven3'
+    }
+
     stages {
-        stage('Clone') {
+
+        stage('Clone Code') {
             steps {
-                git 'https://github.com/imran-049-imran/SpringBoot-Jenkins.git'
+                git branch: 'main',
+                    url: 'https://github.com/imran-049-imran/SpringBoot-Jenkins.git'
             }
         }
 
         stage('Build') {
             steps {
-                sh 'mvn clean install'
+                bat 'mvn clean package'
             }
         }
 
-        stage('Run') {
+        stage('Run App') {
             steps {
-                sh 'java -jar target/*.jar'
+                bat 'start java -jar target/*.jar'
             }
         }
     }
